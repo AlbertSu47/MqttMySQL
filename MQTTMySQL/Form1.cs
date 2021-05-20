@@ -140,7 +140,7 @@ namespace MQTTMySQL
             //從 MYSQL 中查詢資料並於 dataGridView 中顯示 
 
             //查詢資料表的select語法
-            string sql = "SELECT * FROM " + tablename + " ORDER BY _AI DESC LIMIT 5";
+            string sql = "SELECT * FROM " + tablename + " ORDER BY idsensor DESC LIMIT 5";
             //在記憶體建立新的table空白表格
             DataTable table = new DataTable();
             //MySqlDataAdapter類別用connection去查詢MySQL的資料
@@ -158,7 +158,9 @@ namespace MQTTMySQL
         {
             String Record_time;//紀錄資料加入的時間
             Record_time = String.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
-            string sql = "INSERT INTO " + tablename + "(Record_time,Message) VALUES('" + Record_time + "','" + message + "')";
+
+            string[] words = message.Split(',');
+            string sql = "INSERT INTO " + tablename + "(Sensor_id,Record_time,Message) VALUES('" + words[0]+"','" + Record_time + "','" + words[1] + "')";
             MySqlCommand command = new MySqlCommand(sql, connection);
             command.ExecuteNonQuery();//執行SQL
         }
